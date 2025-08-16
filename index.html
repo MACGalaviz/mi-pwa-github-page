@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mi PWA Offline (GitHub Pages)</title>
+  <meta name="theme-color" content="#000000" />
+  <link rel="manifest" href="./manifest.json" />
+  <!-- iOS install helpers -->
+  <link rel="apple-touch-icon" href="./icons/icon-192.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <main>
+    <h1>🚀 Mi PWA en GitHub Pages</h1>
+    <p>Funciona incluso si el servidor está caído (estrategia <em>cache-first</em>).</p>
+    <button id="btn">Probar botón</button>
+    <p class="hint">Para instalar en iOS: Compartir → <strong>Añadir a pantalla de inicio</strong>.</p>
+  </main>
+
+  <!-- Debug console (toggle con triple toque) -->
+  <pre id="debug" class="debug hidden">DEBUG CONSOLE:</pre>
+
+  <script src="./app.js"></script>
+</body>
+</html>
