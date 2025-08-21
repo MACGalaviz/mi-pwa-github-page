@@ -1,24 +1,489 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mi PWA</title>
-  <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#000000">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lotería</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="manifest" href="manifest.json">
 
-  <!-- iOS -->
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="apple-mobile-web-app-title" content="MiPWA">
-  <link rel="apple-touch-icon" href="icons/icon-192.png">
-
-  <link rel="stylesheet" href="styles.css">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+    <link rel="apple-touch-icon-precomposed" href="/apple-touch-icon-precomposed.png">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#5b21b6">
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        input[type="range"] {
+            -webkit-appearance: none;
+            appearance: none;
+            background: #d1d5db;
+            border-radius: 9999px;
+            height: 8px;
+            cursor: pointer;
+            outline: none;
+        }
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 24px;
+            height: 24px;
+            background: #a855f7;
+            border-radius: 9999px;
+            border: none;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-top: -8px;
+        }
+        input[type="range"]::-moz-range-thumb {
+            width: 24px;
+            height: 24px;
+            background: #a855f7;
+            border-radius: 9999px;
+            border: none;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 </head>
-<body>
-  <h1>🚀 Hola, soy tu PWA</h1>
-  <p>Esta app funciona incluso sin internet.</p>
+<body class="bg-purple-100 flex items-center justify-center min-h-screen p-4">
+    <div id="root"></div>
 
-  <script src="script.js"></script>
+    <script type="text/babel">
+        const cardImages = {
+            águila: "images/aguila.jpg",
+            alacrán: "images/alacran.jpg",
+            apache: "images/apache.jpg",
+            araña: "images/arana.jpg",
+            árbol: "images/arbol.jpg",
+            aretes: "images/aretes.jpg",
+            arpa: "images/arpa.jpg",
+            auto: "images/auto.jpg",
+            avión: "images/avion.jpg",
+            bailarinas: "images/bailarinas.jpg",
+            bandera: "images/bandera.jpg",
+            bandolón: "images/bandolon.jpg",
+            barril: "images/barril.jpg",
+            borracho: "images/borracho.jpg",
+            bota: "images/bota.jpg",
+            botella: "images/botella.jpg",
+            boxeadores: "images/boxeadores.jpg",
+            bruja: "images/bruja.jpg",
+            cacahuates: "images/cacahuates.jpg",
+            cafetera: "images/cafetera.jpg",
+            calavera: "images/calavera.jpg",
+            camarón: "images/camaron.jpg",
+            camión: "images/camion.jpg",
+            campana: "images/campana.jpg",
+            cantarito: "images/cantarito.jpg",
+            carretilla: "images/carretilla.jpg",
+            catrín: "images/catrin.jpg",
+            cazo: "images/cazo.jpg",
+            cebolla: "images/cebolla.jpg",
+            cerezas: "images/cerezas.jpg",
+            chalupa: "images/chalupa.jpg",
+            cisnes: "images/cisnes.jpg",
+            clavel: "images/clavel.jpg",
+            cocinero: "images/cocinero.jpg",
+            corazón: "images/corazon.jpg",
+            corona: "images/corona.jpg",
+            cotorro: "images/cotorro.jpg",
+            dama: "images/dama.jpg",
+            diablito: "images/diablito.jpg",
+            dominó: "images/domino.jpg",
+            elefante: "images/elefante.jpg",
+            elote: "images/elote.jpg",
+            escalera: "images/escalera.jpg",
+            escoba: "images/escoba.jpg",
+            escopeta: "images/escopeta.jpg",
+            escuela: "images/escuela.jpg",
+            estrella: "images/estrella.jpg",
+            ferrocarril: "images/ferrocarril.jpg",
+            fonógrafo: "images/fonografo.jpg",
+            futbolistas: "images/futbolistas.jpg",
+            gallo: "images/gallo.jpg",
+            garza: "images/garza.jpg",
+            golondrina: "images/golondrina.jpg",
+            gorrito: "images/gorrito.jpg",
+            guajolote: "images/guajolote.jpg",
+            herradura: "images/herradura.jpg",
+            jarabe: "images/jarabe.jpg",
+            jaras: "images/jaras.jpg",
+            jícara: "images/jicara.jpg",
+            jorobado: "images/jorobado.jpg",
+            lagarto: "images/lagarto.jpg",
+            llanta: "images/llanta.jpg",
+            luna: "images/luna.jpg",
+            maceta: "images/maceta.jpg",
+            mandarín: "images/mandarin.jpg",
+            mano: "images/mano.jpg",
+            marimba: "images/marimba.jpg",
+            martillo: "images/martillo.jpg",
+            melón: "images/melon.jpg",
+            motocicleta: "images/motocicleta.jpg",
+            muerte: "images/muerte.jpg",
+            mundo: "images/mundo.jpg",
+            muñeca: "images/muneca.jpg",
+            músico: "images/musico.jpg",
+            negrito: "images/negrito.jpg",
+            nopal: "images/nopal.jpg",
+            órgano: "images/organo.jpg",
+            oso: "images/oso.jpg",
+            pajarito: "images/pajarito.jpg",
+            palma: "images/palma.jpg",
+            paloma: "images/paloma.jpg",
+            paracaídas: "images/paracaidas.jpg",
+            paraguas: "images/paraguas.jpg",
+            payaso: "images/payaso.jpg",
+            pera: "images/pera.jpg",
+            pescado: "images/pescado.jpg",
+            piñata: "images/pinata.jpg",
+            pino: "images/pino.jpg",
+            pintor: "images/pintor.jpg",
+            plancha: "images/plancha.jpg",
+            plátanos: "images/platanos.jpg",
+            puro: "images/puro.jpg",
+            radio: "images/radio.jpg",
+            rana: "images/rana.jpg",
+            regadera: "images/regadera.jpg",
+            rosa: "images/rosa.jpg",
+            sandía: "images/sandia.jpg",
+            sarape: "images/sarape.jpg",
+            sirena: "images/sirena.jpg",
+            sol: "images/sol.jpg",
+            soldado: "images/soldado.jpg",
+            tambor: "images/tambor.jpg",
+            teléfono: "images/telefono.jpg",
+            tigre: "images/tigre.jpg",
+            tlachiquero: "images/tlachiquero.jpg",
+            valiente: "images/valiente.jpg",
+            venado: "images/venado.jpg",
+            violoncello: "images/violoncello.jpg"
+        };
+
+        const shuffle = (array) => {
+            let currentIndex = array.length, randomIndex;
+            while (currentIndex !== 0) {
+                randomIndex = Math.floor(Math.random() * currentIndex);
+                currentIndex--;
+                [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+            }
+            return array;
+        };
+
+        const translations = {
+            es: {
+                title: "Lotería",
+                manualMode: "Modo Manual",
+                automaticMode: "Modo Automático",
+                gameFinished: "¡Juego Terminado!",
+                startGame: "Empezar",
+                nextCard: "Siguiente Carta",
+                stop: "Detener",
+                restart: "Reiniciar",
+                alreadyCalledCards: "Cartas que ya han salido",
+                searchPlaceholder: "Buscar carta...",
+                noMatches: "No hay cartas que coincidan con la búsqueda.",
+                confirmRestartTitle: "¿Estás seguro?",
+                confirmRestartMessage: "Si reinicias, perderás el progreso del juego actual.",
+                confirm: "Reiniciar",
+                cancel: "Cancelar",
+                selectMode: "Selecciona un modo para empezar",
+                intervalControl: "Tiempo entre cartas:",
+                seconds: "segundos"
+            },
+            en: {
+                title: "Lottery",
+                manualMode: "Manual Mode",
+                automaticMode: "Automatic Mode",
+                gameFinished: "Game Over!",
+                startGame: "Start",
+                nextCard: "Next Card",
+                stop: "Stop",
+                restart: "Restart",
+                alreadyCalledCards: "Already Called Cards",
+                searchPlaceholder: "Search card...",
+                noMatches: "No cards match the search.",
+                confirmRestartTitle: "Are you sure?",
+                confirmRestartMessage: "If you restart, you will lose the current game progress.",
+                confirm: "Restart",
+                cancel: "Cancel",
+                selectMode: "Select a mode to start",
+                intervalControl: "Time between cards:",
+                seconds: "seconds"
+            }
+        };
+
+        const cardNames = Object.keys(cardImages);
+        const placeholderImage = (text) => `https://placehold.co/200x200/99f6e4/1d4ed8?text=${text}`;
+
+        const App = () => {
+            const [shuffledCards, setShuffledCards] = React.useState([]);
+            const [currentCardIndex, setCurrentCardIndex] = React.useState(-1);
+            const [synth, setSynth] = React.useState(null);
+            const [mode, setMode] = React.useState('manual');
+            const [intervalId, setIntervalId] = React.useState(null);
+            const [filterText, setFilterText] = React.useState('');
+            const [showRestartModal, setShowRestartModal] = React.useState(false);
+            const [language, setLanguage] = React.useState('es');
+            const [autoModeInterval, setAutoModeInterval] = React.useState(5000);
+
+            React.useEffect(() => {
+                setShuffledCards(shuffle([...cardNames]));
+                setSynth(window.speechSynthesis);
+            }, []);
+
+            React.useEffect(() => {
+                if (mode === 'automatic' && currentCardIndex < shuffledCards.length - 1) {
+                    const id = setInterval(() => {
+                        handleNextCard();
+                    }, autoModeInterval);
+                    setIntervalId(id);
+                    return () => clearInterval(id);
+                } else if (intervalId) {
+                    clearInterval(intervalId);
+                    setIntervalId(null);
+                }
+            }, [mode, currentCardIndex, shuffledCards.length, autoModeInterval]);
+
+            const speakCardName = (cardName) => {
+                if (synth && cardName) {
+                    const utterance = new SpeechSynthesisUtterance(cardName.replace('-', ' '));
+                    utterance.lang = 'es-ES';
+                    synth.speak(utterance);
+                }
+            };
+
+            const handleNextCard = () => {
+                if (currentCardIndex < shuffledCards.length - 1) {
+                    const newIndex = currentCardIndex + 1;
+                    const nextCardName = shuffledCards[newIndex];
+                    setCurrentCardIndex(newIndex);
+                    speakCardName(nextCardName);
+                }
+            };
+
+            const handleConfirmRestart = () => {
+                setShuffledCards(shuffle([...cardNames]));
+                setCurrentCardIndex(-1);
+                setMode('manual');
+                setFilterText('');
+                setShowRestartModal(false);
+            };
+
+            const handleCancelRestart = () => {
+                setShowRestartModal(false);
+            };
+
+            const currentCardName = shuffledCards[currentCardIndex];
+            const currentCardImage = currentCardName ? cardImages[currentCardName] : null;
+
+            const calledCards = shuffledCards.slice(0, currentCardIndex + 1);
+
+            const normalizeAndLowerCase = (str) => str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+
+            const filteredCards = calledCards.filter(cardName =>
+                normalizeAndLowerCase(cardName).includes(normalizeAndLowerCase(filterText))
+            );
+
+            const t = translations[language];
+
+            const mainCardImageSrc = currentCardImage || placeholderImage(t.selectMode);
+            const mainCardImageAlt = currentCardName || t.selectMode;
+            const mainCardNameText = currentCardName || t.selectMode;
+
+            return (
+                <div className="relative">
+                    <div className="bg-white p-8 rounded-xl shadow-lg w-full max-w-4xl flex flex-col md:flex-row gap-8 items-center md:items-start">
+                        <div className="flex-1 text-center w-full">
+                            <div className="flex justify-end space-x-2 mb-4">
+                                <button
+                                    onClick={() => setLanguage('es')}
+                                    className={`py-1 px-3 rounded-lg font-bold transition-colors ${language === 'es' ? 'bg-purple-600 text-white' : 'bg-gray-200 text-gray-700'}`}
+                                >
+                                    ES
+                                </button>
+                                <button
+                                    onClick={() => setLanguage('en')}
+                                    className={`py-1 px-3 rounded-lg font-bold transition-colors ${language === 'en' ? 'bg-purple-600 text-white' : 'bg-gray-200 text-gray-700'}`}
+                                >
+                                    EN
+                                </button>
+                            </div>
+                            <h1 className="text-4xl font-bold text-purple-800 mb-4">
+                                {t.title}
+                            </h1>
+                            <div className="flex justify-center space-x-4 mb-6">
+                                <button
+                                    onClick={() => setMode('manual')}
+                                    className={`font-bold py-2 px-4 rounded-lg shadow-md transition-colors ${mode === 'manual' ? 'bg-green-500 text-white' : 'bg-gray-200 text-gray-700'}`}
+                                >
+                                    {t.manualMode}
+                                </button>
+                                <button
+                                    onClick={() => setMode('automatic')}
+                                    className={`font-bold py-2 px-4 rounded-lg shadow-md transition-colors ${mode === 'automatic' ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-700'}`}
+                                >
+                                    {t.automaticMode}
+                                </button>
+                            </div>
+                            {mode === 'automatic' && (
+                                <div className="mt-4 mb-6">
+                                    <label htmlFor="interval-slider" className="text-sm font-semibold text-gray-700">
+                                        {t.intervalControl}
+                                    </label>
+                                    <div className="flex items-center space-x-4">
+                                        <input
+                                            type="range"
+                                            id="interval-slider"
+                                            min="2000"
+                                            max="10000"
+                                            step="1000"
+                                            value={autoModeInterval}
+                                            onChange={(e) => setAutoModeInterval(Number(e.target.value))}
+                                            className="w-full"
+                                        />
+                                        <span className="font-bold text-purple-700">
+                                            {autoModeInterval / 1000} {t.seconds}
+                                        </span>
+                                    </div>
+                                </div>
+                            )}
+                            <div className="mb-6">
+                                <div className="relative w-full h-64 rounded-lg overflow-hidden bg-gray-200 flex items-center justify-center shadow-md">
+                                    {currentCardIndex >= shuffledCards.length - 1 ? (
+                                        <p className="text-gray-700 font-semibold text-2xl">
+                                            {t.gameFinished}
+                                        </p>
+                                    ) : (
+                                        <img
+                                            src={mainCardImageSrc}
+                                            alt={mainCardImageAlt}
+                                            className="absolute top-0 left-0 w-full h-full object-contain p-4"
+                                            onError={(e) => { e.target.src = placeholderImage(mainCardImageAlt); e.target.alt = mainCardImageAlt; }}
+                                        />
+                                    )}
+                                </div>
+                                {currentCardImage && (
+                                    <h2 className="text-3xl font-bold text-purple-700 capitalize mt-4">
+                                        {mainCardNameText}
+                                    </h2>
+                                )}
+                            </div>
+                            {mode === 'manual' && (
+                                <button
+                                    onClick={handleNextCard}
+                                    className="w-full bg-purple-600 text-white font-bold py-3 px-6 rounded-lg shadow-lg hover:bg-purple-700 transition-colors disabled:opacity-50"
+                                    disabled={currentCardIndex >= shuffledCards.length - 1}
+                                >
+                                    {t.nextCard}
+                                </button>
+                            )}
+                            {mode === 'automatic' && (
+                                intervalId ? (
+                                    <button
+                                        onClick={() => setMode('manual')}
+                                        className="w-full bg-red-600 text-white font-bold py-3 px-6 rounded-lg shadow-lg hover:bg-red-700 transition-colors"
+                                    >
+                                        {t.stop}
+                                    </button>
+                                ) : (
+                                    <button
+                                        onClick={handleNextCard}
+                                        className="w-full bg-blue-600 text-white font-bold py-3 px-6 rounded-lg shadow-lg hover:bg-blue-700 transition-colors disabled:opacity-50"
+                                        disabled={currentCardIndex >= shuffledCards.length - 1}
+                                    >
+                                        {currentCardIndex === -1 ? t.startGame : t.nextCard}
+                                    </button>
+                                )
+                            )}
+                            <button
+                                onClick={() => setShowRestartModal(true)}
+                                className="w-full mt-4 bg-gray-400 text-gray-800 font-bold py-3 px-6 rounded-lg shadow-lg hover:bg-gray-500 transition-colors"
+                            >
+                                {t.restart}
+                            </button>
+                        </div>
+                        <div className="flex-1 w-full bg-gray-100 p-4 rounded-lg overflow-y-auto max-h-[500px]">
+                            <h2 className="text-2xl font-bold text-gray-800 mb-4 text-center">
+                                {t.alreadyCalledCards}
+                            </h2>
+                            <div className="mb-4">
+                                <input
+                                    type="text"
+                                    placeholder={t.searchPlaceholder}
+                                    value={filterText}
+                                    onChange={(e) => setFilterText(e.target.value)}
+                                    className="w-full p-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                                />
+                            </div>
+                            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                                {filteredCards.length > 0 ? (
+                                    filteredCards.map((cardName, index) => (
+                                        <div key={index} className="bg-white p-2 rounded-md shadow-sm">
+                                            <img
+                                                src={cardImages[cardName]}
+                                                alt={cardName}
+                                                className="w-full h-auto rounded-md"
+                                                onError={(e) => { e.target.src = placeholderImage(cardName); e.target.alt = cardName; }}
+                                            />
+                                            <p className="mt-1 text-sm font-semibold text-gray-700 capitalize text-center">
+                                                {cardName.replace('-', ' ')}
+                                            </p>
+                                        </div>
+                                    ))
+                                ) : (
+                                    <div className="col-span-full text-center text-gray-500">
+                                        {t.noMatches}
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+                    </div>
+                    {showRestartModal && (
+                        <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center p-4">
+                            <div className="bg-white p-6 rounded-xl shadow-lg text-center max-w-sm w-full">
+                                <h3 className="text-xl font-bold mb-4">{t.confirmRestartTitle}</h3>
+                                <p className="mb-6">{t.confirmRestartMessage}</p>
+                                <div className="flex justify-center space-x-4">
+                                    <button
+                                        onClick={handleConfirmRestart}
+                                        className="bg-red-500 text-white font-bold py-2 px-4 rounded-lg shadow-md hover:bg-red-600 transition-colors"
+                                    >
+                                        {t.confirm}
+                                    </button>
+                                    <button
+                                        onClick={handleCancelRestart}
+                                        className="bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded-lg shadow-md hover:bg-gray-400 transition-colors"
+                                    >
+                                        {t.cancel}
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+                </div>
+            );
+        };
+
+        const domNode = document.getElementById('root');
+        const root = ReactDOM.createRoot(domNode);
+        root.render(<App />);
+
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('service-worker.js')
+                    .then(registration => console.log('Service Worker registrado:', registration))
+                    .catch(error => console.log('Fallo en el registro del Service Worker:', error));
+            });
+        }
+    </script>
 </body>
 </html>
