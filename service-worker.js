@@ -1,4 +1,4 @@
-const CACHE_NAME = 'lottery-cache-v9'; // Cambia el número de versión para forzar la actualización
+const CACHE_NAME = 'lottery-cache-v10'; // Cambia el número de versión para forzar la actualización
 const urlsToCache = [
     '/',
     '/index.html',
@@ -181,4 +181,5 @@ self.addEventListener('fetch', (event) => {
             });
         })
     );
+
 });
