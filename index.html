@@ -5,21 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lotería</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="manifest" href="manifest.json">
 
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-    <link rel="apple-touch-icon-precomposed" href="/apple-touch-icon-precomposed.png">
-    <link rel="icon" href="/favicon.ico" type="image/x-icon">
-    <link rel="shortcut icon" href="/favicon.ico">
+    <!-- Manifest e íconos -->
+    <link rel="manifest" href="./manifest.json">
+    <link rel="apple-touch-icon" href="./apple-touch-icon.png">
+    <link rel="apple-touch-icon-precomposed" href="./apple-touch-icon-precomposed.png">
+    <link rel="icon" href="./favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="./favicon.ico">
+
+    <!-- Configuración PWA -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="theme-color" content="#5b21b6">
-    
+
+    <!-- Fuentes -->
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
-        body {
-            font-family: 'Inter', sans-serif;
-        }
+        body { font-family: 'Inter', sans-serif; }
         input[type="range"] {
             -webkit-appearance: none;
             appearance: none;
@@ -49,6 +51,8 @@
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
     </style>
+
+    <!-- React -->
     <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -56,116 +60,117 @@
 <body class="bg-purple-100 flex items-center justify-center min-h-screen p-4">
     <div id="root"></div>
 
+    <!-- Tu App -->
     <script type="text/babel">
-        const cardImages = {
-            águila: "images/aguila.jpg",
-            alacrán: "images/alacran.jpg",
-            apache: "images/apache.jpg",
-            araña: "images/arana.jpg",
-            árbol: "images/arbol.jpg",
-            aretes: "images/aretes.jpg",
-            arpa: "images/arpa.jpg",
-            auto: "images/auto.jpg",
-            avión: "images/avion.jpg",
-            bailarinas: "images/bailarinas.jpg",
-            bandera: "images/bandera.jpg",
-            bandolón: "images/bandolon.jpg",
-            barril: "images/barril.jpg",
-            borracho: "images/borracho.jpg",
-            bota: "images/bota.jpg",
-            botella: "images/botella.jpg",
-            boxeadores: "images/boxeadores.jpg",
-            bruja: "images/bruja.jpg",
-            cacahuates: "images/cacahuates.jpg",
-            cafetera: "images/cafetera.jpg",
-            calavera: "images/calavera.jpg",
-            camarón: "images/camaron.jpg",
-            camión: "images/camion.jpg",
-            campana: "images/campana.jpg",
-            cantarito: "images/cantarito.jpg",
-            carretilla: "images/carretilla.jpg",
-            catrín: "images/catrin.jpg",
-            cazo: "images/cazo.jpg",
-            cebolla: "images/cebolla.jpg",
-            cerezas: "images/cerezas.jpg",
-            chalupa: "images/chalupa.jpg",
-            cisnes: "images/cisnes.jpg",
-            clavel: "images/clavel.jpg",
-            cocinero: "images/cocinero.jpg",
-            corazón: "images/corazon.jpg",
-            corona: "images/corona.jpg",
-            cotorro: "images/cotorro.jpg",
-            dama: "images/dama.jpg",
-            diablito: "images/diablito.jpg",
-            dominó: "images/domino.jpg",
-            elefante: "images/elefante.jpg",
-            elote: "images/elote.jpg",
-            escalera: "images/escalera.jpg",
-            escoba: "images/escoba.jpg",
-            escopeta: "images/escopeta.jpg",
-            escuela: "images/escuela.jpg",
-            estrella: "images/estrella.jpg",
-            ferrocarril: "images/ferrocarril.jpg",
-            fonógrafo: "images/fonografo.jpg",
-            futbolistas: "images/futbolistas.jpg",
-            gallo: "images/gallo.jpg",
-            garza: "images/garza.jpg",
-            golondrina: "images/golondrina.jpg",
-            gorrito: "images/gorrito.jpg",
-            guajolote: "images/guajolote.jpg",
-            herradura: "images/herradura.jpg",
-            jarabe: "images/jarabe.jpg",
-            jaras: "images/jaras.jpg",
-            jícara: "images/jicara.jpg",
-            jorobado: "images/jorobado.jpg",
-            lagarto: "images/lagarto.jpg",
-            llanta: "images/llanta.jpg",
-            luna: "images/luna.jpg",
-            maceta: "images/maceta.jpg",
-            mandarín: "images/mandarin.jpg",
-            mano: "images/mano.jpg",
-            marimba: "images/marimba.jpg",
-            martillo: "images/martillo.jpg",
-            melón: "images/melon.jpg",
-            motocicleta: "images/motocicleta.jpg",
-            muerte: "images/muerte.jpg",
-            mundo: "images/mundo.jpg",
-            muñeca: "images/muneca.jpg",
-            músico: "images/musico.jpg",
-            negrito: "images/negrito.jpg",
-            nopal: "images/nopal.jpg",
-            órgano: "images/organo.jpg",
-            oso: "images/oso.jpg",
-            pajarito: "images/pajarito.jpg",
-            palma: "images/palma.jpg",
-            paloma: "images/paloma.jpg",
-            paracaídas: "images/paracaidas.jpg",
-            paraguas: "images/paraguas.jpg",
-            payaso: "images/payaso.jpg",
-            pera: "images/pera.jpg",
-            pescado: "images/pescado.jpg",
-            piñata: "images/pinata.jpg",
-            pino: "images/pino.jpg",
-            pintor: "images/pintor.jpg",
-            plancha: "images/plancha.jpg",
-            plátanos: "images/platanos.jpg",
-            puro: "images/puro.jpg",
-            radio: "images/radio.jpg",
-            rana: "images/rana.jpg",
-            regadera: "images/regadera.jpg",
-            rosa: "images/rosa.jpg",
-            sandía: "images/sandia.jpg",
-            sarape: "images/sarape.jpg",
-            sirena: "images/sirena.jpg",
-            sol: "images/sol.jpg",
-            soldado: "images/soldado.jpg",
-            tambor: "images/tambor.jpg",
-            teléfono: "images/telefono.jpg",
-            tigre: "images/tigre.jpg",
-            tlachiquero: "images/tlachiquero.jpg",
-            valiente: "images/valiente.jpg",
-            venado: "images/venado.jpg",
-            violoncello: "images/violoncello.jpg"
+              const cardImages = {
+            águila: "images/aguila.png",
+            alacrán: "images/alacran.png",
+            apache: "images/apache.png",
+            araña: "images/arana.png",
+            árbol: "images/arbol.png",
+            aretes: "images/aretes.png",
+            arpa: "images/arpa.png",
+            auto: "images/auto.png",
+            avión: "images/avion.png",
+            bailarinas: "images/bailarinas.png",
+            bandera: "images/bandera.png",
+            bandolón: "images/bandolon.png",
+            barril: "images/barril.png",
+            borracho: "images/borracho.png",
+            bota: "images/bota.png",
+            botella: "images/botella.png",
+            boxeadores: "images/boxeadores.png",
+            bruja: "images/bruja.png",
+            cacahuates: "images/cacahuates.png",
+            cafetera: "images/cafetera.png",
+            calavera: "images/calavera.png",
+            camarón: "images/camaron.png",
+            camión: "images/camion.png",
+            campana: "images/campana.png",
+            cantarito: "images/cantarito.png",
+            carretilla: "images/carretilla.png",
+            catrín: "images/catrin.png",
+            cazo: "images/cazo.png",
+            cebolla: "images/cebolla.png",
+            cerezas: "images/cerezas.png",
+            chalupa: "images/chalupa.png",
+            cisnes: "images/cisnes.png",
+            clavel: "images/clavel.png",
+            cocinero: "images/cocinero.png",
+            corazón: "images/corazon.png",
+            corona: "images/corona.png",
+            cotorro: "images/cotorro.png",
+            dama: "images/dama.png",
+            diablito: "images/diablito.png",
+            dominó: "images/domino.png",
+            elefante: "images/elefante.png",
+            elote: "images/elote.png",
+            escalera: "images/escalera.png",
+            escoba: "images/escoba.png",
+            escopeta: "images/escopeta.png",
+            escuela: "images/escuela.png",
+            estrella: "images/estrella.png",
+            ferrocarril: "images/ferrocarril.png",
+            fonógrafo: "images/fonografo.png",
+            futbolistas: "images/futbolistas.png",
+            gallo: "images/gallo.png",
+            garza: "images/garza.png",
+            golondrina: "images/golondrina.png",
+            gorrito: "images/gorrito.png",
+            guajolote: "images/guajolote.png",
+            herradura: "images/herradura.png",
+            jarabe: "images/jarabe.png",
+            jaras: "images/jaras.png",
+            jícara: "images/jicara.png",
+            jorobado: "images/jorobado.png",
+            lagarto: "images/lagarto.png",
+            llanta: "images/llanta.png",
+            luna: "images/luna.png",
+            maceta: "images/maceta.png",
+            mandarín: "images/mandarin.png",
+            mano: "images/mano.png",
+            marimba: "images/marimba.png",
+            martillo: "images/martillo.png",
+            melón: "images/melon.png",
+            motocicleta: "images/motocicleta.png",
+            muerte: "images/muerte.png",
+            mundo: "images/mundo.png",
+            muñeca: "images/muneca.png",
+            músico: "images/musico.png",
+            negrito: "images/negrito.png",
+            nopal: "images/nopal.png",
+            órgano: "images/organo.png",
+            oso: "images/oso.png",
+            pajarito: "images/pajarito.png",
+            palma: "images/palma.png",
+            paloma: "images/paloma.png",
+            paracaídas: "images/paracaidas.png",
+            paraguas: "images/paraguas.png",
+            payaso: "images/payaso.png",
+            pera: "images/pera.png",
+            pescado: "images/pescado.png",
+            piñata: "images/pinata.png",
+            pino: "images/pino.png",
+            pintor: "images/pintor.png",
+            plancha: "images/plancha.png",
+            plátanos: "images/platanos.png",
+            puro: "images/puro.png",
+            radio: "images/radio.png",
+            rana: "images/rana.png",
+            regadera: "images/regadera.png",
+            rosa: "images/rosa.png",
+            sandía: "images/sandia.png",
+            sarape: "images/sarape.png",
+            sirena: "images/sirena.png",
+            sol: "images/sol.png",
+            soldado: "images/soldado.png",
+            tambor: "images/tambor.png",
+            teléfono: "images/telefono.png",
+            tigre: "images/tigre.png",
+            tlachiquero: "images/tlachiquero.png",
+            valiente: "images/valiente.png",
+            venado: "images/venado.png",
+            violoncello: "images/violoncello.png"
         };
 
         const shuffle = (array) => {
@@ -477,13 +482,13 @@
         const root = ReactDOM.createRoot(domNode);
         root.render(<App />);
 
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('service-worker.js')
-                    .then(registration => console.log('Service Worker registrado:', registration))
-                    .catch(error => console.log('Fallo en el registro del Service Worker:', error));
-            });
-        }
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('./service-worker.js')
+            .then(registration => console.log('✅ Service Worker registrado:', registration))
+            .catch(error => console.log('❌ Fallo en el registro del Service Worker:', error));
+        });
+      }
     </script>
 </body>
 </html>
